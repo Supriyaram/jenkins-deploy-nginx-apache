@@ -6,9 +6,9 @@ pipeline {
        {
             steps {
                 //First, drop the directory if exists
-                sh 'rm -rf /home/jenkins/app-web'
+                sh 'rm -rf /var/jenkins_home/app-web'
                 //Create the directory
-                sh 'mkdir /home/jenkins/app-web'               
+                sh 'mkdir /var/jenkins_home/app-web'               
             }
         }
         stage('Drop the containers'){   
@@ -26,13 +26,13 @@ pipeline {
                 {           
                     steps {
                     echo 'Creating the Apache Container...'
-                    sh 'docker run -dit --name app-web-apache -p 9100:80  -v /home/jenkins/app-web:/usr/local/apache2/htdocs/ httpd'
+                    sh 'docker run -dit --name app-web-apache -p 9100:80  -v /var/jenkins_home/app-web:/usr/local/apache2/htdocs/ httpd'
                     }
                 }
                 stage('Create the Nginx container') {
                    steps {
-                   echo 'Creating the Apache container...'
-                   sh 'docker run -dit --name app-web-nginx -p 9200:80  -v /home/jenkins/app-web:/usr/share/nginx/html nginx'         
+                   echo 'Creating the Nginx container...'
+                   sh 'docker run -dit --name app-web-nginx -p 9200:80  -v /var/jenkins_home/app-web:/usr/share/nginx/html nginx'         
                    }
                 }       
             }   
@@ -41,7 +41,7 @@ pipeline {
         stage('Copy the web application to the container directory') {
             steps {
                 echo 'Copying web application...'             
-                sh 'cp -r web/* /home/jenkins/app-web'
+                sh 'cp -r web/* /var/jenkins_home/app-web'
             }
         }
     }
