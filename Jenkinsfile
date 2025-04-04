@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Drop the containers'){   
             parallel{
-                stage{'Apache'){
+                stage('Apache'){
                     steps{
                         echo 'droping the apache container...'
                         sh 'docker rm -f app-web-apache'
@@ -27,6 +27,7 @@ pipeline {
                     }
                 }
         }
+    }
         //Creating the containers in Parallel
         stage('Create the containers in Parallel') {
             parallel{
